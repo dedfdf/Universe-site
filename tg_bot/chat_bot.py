@@ -1,27 +1,23 @@
 import logging
-
-from pygame.display import update
 from telegram.ext import Application, MessageHandler, filters, CommandHandler
-import asyncio
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ConversationHandler
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from random import choice, shuffle
+from tkn import TOKEN
+from planets import dict_planets
+import sqlite3
 
-TOKEN = '8132858580:AAE7HZhrZC83PuYsonAYMC25E7_50BuVXQE'
-dict_planets = {'Меркурий': 'media/Меркурий.jpg', 'Земля': 'media/Земля.jpg',
-                'Венера': 'media/Венера.jpg', 'Марс': 'media/Марс.jpg', 'Уран': 'media/Уран.jpg',
-                'Нептун': 'media/Нептун.jpg', 'Сатурн': 'media/Сатурн.jpg',
-                'Юпитер': 'media/Юпитер.jpg'}
+# Логируем
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-main_keyboard = [['/help', '/game']]
+# Создание главной клавиатуры
+main_keyboard = [['/help', '/game', '/statistic']]
 markup_main = ReplyKeyboardMarkup(main_keyboard, one_time_keyboard=False)
+
 answer = 0
-conv_handler = ConversationHandler(entry_points=[CommandHandler('game', game)], states={
-    1: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_answer)],
-    2: [MessageHandler(filters.TEXT & ~filters.COMMAND, right_answer)],
-    3: [MessageHandler(filters.TEXT & ~filters.COMMAND, second_response)]},
-                                   fallbacks=[CommandHandler('stop', stop)])
+# Подключение к базе данных
+con = sqlite3.connect("statistic_users.sqlite")
+cur = con.cursor()
 
 
 async def close_keyboard(update, context):
@@ -30,13 +26,32 @@ async def close_keyboard(update, context):
 
 async def start(update, context):
     close_keyboard(update, context)
-    await update.message.reply_text('''Приветствую, я бот-помощник по сайту 
-    "Путешествие по вселенной".''', reply_markup=markup_main)
+    user = update.effective_user
+    await update.message.reply_text(f'''Приветствую, я бот-помощник по сайту 
+    "Путешествие по вселенной, {user.id}".''', reply_markup=markup_main)
 
 
 async def helping(update, context):
+    keyboard = [['/statistic', '/game']]
+    markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=False)
     await update.message.reply_text('''Я пока что не знаю как вам помочь)''',
-                                    reply_markup=markup_main)
+                                    reply_markup=markup)
+
+
+async def statistic(update, context):
+    keyboard = [['/help', '/game']]
+    markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=False)
+    user = update.effective_user.id
+    rez = cur.execute("""SELECT user FROM statistic""").fetchall()
+    if user in rez:
+        right = cur.execute("""SELECT count_right FROM statistic""").fetchone()
+        wrong = cur.execute("""SELECT count_wrong FROM statistic""").fetchone()
+        await update.message.reply_text(f'''Ваша статистика:
+            Всего попыток - {right + wrong}
+            Правильных ответов - {right}
+            Неправильных ответов - {wrong}''', reply_markup=markup)
+    else:
+        await update.message.reply_text('Извините, но Вы еще не играли!', reply_markup=markup)
 
 
 async def game(update, context):
@@ -69,14 +84,66 @@ async def get_answer(update, context):
     return 3
 
 
+async def right_answer(update, context):
+    keyboard = [['/help', '/statistic']]
+    markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=False)
+    rez = cur.execute("""SELECT user FROM statistic""").fetchall()
+    if update.effective_user.id in rez:
+        n = cur.execute("""SELECT count_right FROM statistic WHERE user = ?""",
+                        (update.effective_user.id,)).fetchone()
+        que = '''UPDATE statistic SET count_right = ? WHERE user = ?'''
+        cur.execute(que, (n + 1, update.effective_user.id))
+    else:
+        que = """INSERT INTO statistic(user, count_right, count_wrong) VALUES(?, 1, 0)"""
+        cur.execute(que, (update.effective_user.id,))
+    con.commit()
+    await update.message.reply_text(
+        f'Совершенно верно, Вы отгадали, теперь можете посмотреть свою статистику (/statistic)',
+        reply_markup=markup)
+    return ConversationHandler.END
+
+
+async def wrong_answer(update, context):
+    keyboard = [['/help', '/statistic']]
+    markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=False)
+    rez = cur.execute("""SELECT user FROM statistic""").fetchall()
+    if update.effective_user.id in rez:
+        n = cur.execute("""SELECT count_wrong FROM statistic WHERE user = ?""",
+                        (update.effective_user.id,)).fetchone()
+        que = '''UPDATE statistic SET count_wrong = ? WHERE user = ?'''
+        cur.execute(que, (n + 1, update.effective_user.id))
+        con.commit()
+    else:
+        que = """INSERT INTO statistic(user, count_right, count_wrong) VALUES(?, 0, 1)"""
+        cur.execute(que, (update.effective_user.id,))
+    con.commit()
+    await update.message.reply_text(
+        f'''Увы, вы не отгадали, не расстраивайтесь у вас обязательно получится в другой раз,
+        теперь можете посмотреть свою статистику (/statistic)''',
+        reply_markup=markup)
+    return ConversationHandler.END
+
+
+async def stop(update, context):
+    await update.message.reply_text("Всего доброго!")
+    return ConversationHandler.END
+
+
 def main():
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", helping))
     app.add_handler(CommandHandler('game', game))
-
+    app.add_handler(CommandHandler('statistic', statistic))
+    conv_handler = ConversationHandler(entry_points=[CommandHandler('game', game)], states={
+        1: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_answer)],
+        2: [MessageHandler(filters.TEXT & ~filters.COMMAND, right_answer)],
+        3: [MessageHandler(filters.TEXT & ~filters.COMMAND, wrong_answer)]},
+                                       fallbacks=[CommandHandler('stop', stop)])
+    app.add_handler(conv_handler)
     app.run_polling()
 
 
 if __name__ == '__main__':
     main()
+    con.close()
