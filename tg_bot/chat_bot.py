@@ -1,5 +1,5 @@
 import logging
-from telegram.ext import Application, MessageHandler, filters, CommandHandler
+from telegram.ext import Application, MessageHandler, filters, CommandHandler, ConversationHandler
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from random import choice, shuffle
 from tkn import TOKEN
@@ -77,8 +77,9 @@ async def game(update, context):
 
 
 async def get_answer(update, context):
-    # global answer
-    text = update.message.reply_text
+    global answer
+    text = update.message.text
+    await update.message.reply_text(text)
     if text == answer:
         return 2
     return 3
@@ -87,6 +88,9 @@ async def get_answer(update, context):
 async def right_answer(update, context):
     keyboard = [['/help', '/statistic']]
     markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=False)
+    await update.message.reply_text(
+        f'Совершенно верно, Вы отгадали, теперь можете посмотреть свою статистику (/statistic)',
+        reply_markup=markup)
     rez = cur.execute("""SELECT user FROM statistic""").fetchall()
     if update.effective_user.id in rez:
         n = cur.execute("""SELECT count_right FROM statistic WHERE user = ?""",
@@ -97,15 +101,16 @@ async def right_answer(update, context):
         que = """INSERT INTO statistic(user, count_right, count_wrong) VALUES(?, 1, 0)"""
         cur.execute(que, (update.effective_user.id,))
     con.commit()
-    await update.message.reply_text(
-        f'Совершенно верно, Вы отгадали, теперь можете посмотреть свою статистику (/statistic)',
-        reply_markup=markup)
     return ConversationHandler.END
 
 
 async def wrong_answer(update, context):
     keyboard = [['/help', '/statistic']]
     markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=False)
+    await update.message.reply_text(
+        f'''Увы, вы не отгадали, не расстраивайтесь у вас обязательно получится в другой раз,
+теперь можете посмотреть свою статистику (/statistic)''',
+        reply_markup=markup)
     rez = cur.execute("""SELECT user FROM statistic""").fetchall()
     if update.effective_user.id in rez:
         n = cur.execute("""SELECT count_wrong FROM statistic WHERE user = ?""",
@@ -117,10 +122,6 @@ async def wrong_answer(update, context):
         que = """INSERT INTO statistic(user, count_right, count_wrong) VALUES(?, 0, 1)"""
         cur.execute(que, (update.effective_user.id,))
     con.commit()
-    await update.message.reply_text(
-        f'''Увы, вы не отгадали, не расстраивайтесь у вас обязательно получится в другой раз,
-        теперь можете посмотреть свою статистику (/statistic)''',
-        reply_markup=markup)
     return ConversationHandler.END
 
 
