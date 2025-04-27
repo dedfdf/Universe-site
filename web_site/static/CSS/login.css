@@ -1,0 +1,15 @@
+.container1{
+margin-left: 700px;
+margin-top: 300px;
+width: 500px;
+height: 300px;
+color: white;
+background-color: rgba(0, 0, 0, 0.7);
+border-radius: 5px;
+}
+.label{
+margin-top: 30px;
+}
+.label1{
+margin-top: 30px;
+}
