@@ -6,13 +6,12 @@ from forms.login_form import LoginForm
 from forms.autification_tg_form import TgForm
 from forms.register_form import RegisterForm
 
-
 app = Flask(__name__)
 login_manager = LoginManager()
 login_manager.init_app(app)
 app.config['SECRET_KEY'] = 'universe_site_Akim_and_Val_secret_key'
 
-
+# background-image: url('static/image/prof1.jpg'); background-repeat: no-repeat; background-position: 0% 0%;
 @app.route('/')
 def main():
     return render_template('main_window.html')
@@ -21,8 +20,7 @@ def main():
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user()
-    return redirect("/")
+    return redirect("/menu_login")
 
 
 @login_manager.user_loader
@@ -68,14 +66,17 @@ def menu_login():
 @app.route('/autification_tg', methods=['GET', 'POST'])
 def autification_tg():
     form = TgForm()
+    print()
+    if form.submit_return.data:
+        return render_template('menu_login.html')
     if form.validate_on_submit():
         # Запрос в тг
         # form.tg_id.data - здесь хранится id пользователя
         return render_template('menu_login.html')  # если все хорошо
-        return render_template('autification_tg.html', form=form, message='Нету такого пользователя проверте данные которые вы вводите')  # если нету пользователя
+        return render_template('autification_tg.html', form=form,
+                               message='Нету такого пользователя проверте данные которые вы вводите')
+        # если нету пользователя
     return render_template('autification_tg.html', form=form)
-
-
 
 if __name__ == '__main__':
     db_session.global_init(f"db/universe_site.sqlite")

@@ -23,4 +23,4 @@ class User(SqlAlchemyBase, UserMixin):
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                       default=datetime.datetime.now)
-    teleg_is_auauthentication = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True)
+    teleg_is_auauthentication = sqlalchemy.Column(sqlalchemy.String, nullable=True)

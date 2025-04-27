@@ -9,15 +9,17 @@
     <title>Двухфакторная аутентификация</title>
 </head>
 <body style="background-image: url('static/image/sad.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
+<div align="center">
 <div class="container1">
 <form action="" method="post" novalidate>
     <div>{{ form.csrf_token }}</div>
     <h3 align="center">{{ form.tg_id.label }}</h3>
     <p align="center">{{ form.tg_id(class="form-control") }}</p>
     <p align="center">{{ form.submit(type="submit", class="btn btn-outline-light") }}</p>
+    <p align="center">{{ form.submit_return(type="submit", class="btn btn-outline-light") }}</p>
     {% for error in form.tg_id.errors %}
     <div class="alert alert-danger" role="alert">
-        Ошибка в строчке id
+        Пустая строчка
     </div>
     {% endfor %}
     {% if message %}
@@ -26,6 +28,7 @@
         </div>
     {% endif %}
 </form>
+</div>
 </div>
 </body>
 </html>
