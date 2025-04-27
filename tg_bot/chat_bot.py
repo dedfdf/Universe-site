@@ -35,7 +35,7 @@ async def helping(update, context):
     markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=False)
     await update.message.reply_text(
         '''Этот бот был создан в качестве дополнения к сайту "Путешествие по вселенной".
-        Связь с разработчиками: tg//user?id=6911621774, @dedfd3''',
+        Связь с разработчиками: @Akimyshka23, @dedfd3''',
         reply_markup=markup)
 
 
@@ -45,7 +45,7 @@ async def game(update, context):
     list_answer = [answer]
     for i in range(3):
         first_wr_answer = choice(list(dict_planets.keys()))
-        while first_wr_answer in answer:
+        while first_wr_answer in list_answer:
             first_wr_answer = choice(list(dict_planets.keys()))
         list_answer.append(first_wr_answer)
     shuffle(list_answer)
@@ -90,7 +90,7 @@ async def get_answer(update, context):
         n = cur.execute("""SELECT count_wrong FROM statistic WHERE user = ?""",
                         (update.effective_user.id,)).fetchone()
         que = '''UPDATE statistic SET count_wrong = ? WHERE user = ?'''
-        cur.execute(que, (n + 1, update.effective_user.id))
+        cur.execute(que, (int(n[0]) + 1, update.effective_user.id))
         con.commit()
     else:
         que = """INSERT INTO statistic(user, count_right, count_wrong) VALUES(?, 0, 1)"""
@@ -108,7 +108,8 @@ async def statistic(update, context):
         right = list(cur.execute("""SELECT count_right FROM statistic""").fetchone())[0]
         wrong = list(cur.execute("""SELECT count_wrong FROM statistic""").fetchone())[0]
         count = len(
-            list(cur.execute("""SELECT user FROM statistic WHERE count_right > ?""", right)))
+            list(cur.execute("""SELECT user FROM statistic WHERE count_right > ?""",
+                             (right,))))
         await update.message.reply_text(f'''Ваша статистика:
             Всего попыток - {right + wrong}
             Правильных ответов - {right}
