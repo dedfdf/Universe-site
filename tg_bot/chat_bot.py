@@ -27,7 +27,38 @@ async def close_keyboard(update, context):
 async def start(update, context):
     user = update.effective_user
     await update.message.reply_text(f'''Приветствую, я бот-помощник по сайту 
-    "Путешествие по вселенной, а так же со мной можно поиграть".''', reply_markup=markup_main)
+    "Путешествие по вселенной", а так же со мной можно поиграть.
+Но для начала работы с ботом вам необходимо пройти регистрацию на нашем сайте https://,
+после этого введите своё имя на сайте''', reply_markup=ReplyKeyboardRemove())
+    return 1
+
+
+async def get_name(update, context):
+    text = update.message.text
+    con = sqlite3.connect("universe_site.sqlite")
+    cur = con.cursor()
+    rez = [x[0] for x in cur.execute("""SELECT name FROM Users""").fetchall()]
+    if text in rez:
+        await update.message.reply_text(f"""А теперь введите свой email""")
+        return 2
+    await update.message.reply_text('''Такого пользователя нет на сайте,
+       введите правильно или пройдите авторизацию(/start)''')
+    return ConversationHandler.END
+
+
+async def get_email(update, context):
+    text = update.message.text
+    await update.message.reply_text('''Проверяем базу данных...''')
+    con = sqlite3.connect("universe_site.sqlite")
+    cur = con.cursor()
+    rez = [x[0] for x in cur.execute("""SELECT email FROM Users""").fetchall()]
+    if text in rez:
+        await update.message.reply_text('''Всё успешно. А теперь можно и поиграть..''',
+                                        reply_markup=markup_main)
+        return ConversationHandler.END
+    await update.message.reply_text('''Такого пользователя нет на сайте,
+       введите правильно или пройдите авторизацию(/start)''')
+    return ConversationHandler.END
 
 
 async def helping(update, context):
@@ -127,13 +158,17 @@ async def stop(update, context):
 
 def main():
     app = Application.builder().token(TOKEN).build()
-    app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", helping))
     app.add_handler(CommandHandler('statistic', statistic))
     conv_handler = ConversationHandler(entry_points=[CommandHandler('game', game)], states={
         1: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_answer)]},
                                        fallbacks=[CommandHandler('stop', stop)])
     app.add_handler(conv_handler)
+    conv_handler2 = ConversationHandler(entry_points=[CommandHandler('start', start)], states={
+        1: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_name)],
+        2: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_email)]},
+                                        fallbacks=[CommandHandler('stop', stop)])
+    app.add_handler(conv_handler2)
     app.run_polling()
 
 
