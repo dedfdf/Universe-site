@@ -136,8 +136,10 @@ async def statistic(update, context):
     user = update.effective_user.id
     rez = list(cur.execute("""SELECT user FROM statistic""").fetchall())
     if str(user) in [x[0] for x in rez]:
-        right = list(cur.execute("""SELECT count_right FROM statistic""").fetchone())[0]
-        wrong = list(cur.execute("""SELECT count_wrong FROM statistic""").fetchone())[0]
+        right = list(cur.execute("""SELECT count_right FROM statistic WHERE user = ?""",
+                                 (user,)).fetchone())[0]
+        wrong = list(cur.execute("""SELECT count_wrong FROM statistic WHERE user = ?""",
+                                 (user,)).fetchone())[0]
         count = len(
             list(cur.execute("""SELECT user FROM statistic WHERE count_right > ?""",
                              (right,))))
