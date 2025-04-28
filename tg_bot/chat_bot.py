@@ -7,11 +7,13 @@ from planets import dict_planets # Изображения планет
 import sqlite3
 import matplotlib.pyplot as plt
 import os
+from requests import get
 
 # Логируем
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+name = ''
 # Создание главной клавиатуры
 main_keyboard = [['/help', '/game', '/statistic']]
 markup_main = ReplyKeyboardMarkup(main_keyboard, one_time_keyboard=False)
@@ -36,11 +38,11 @@ async def start(update, context):
 
 
 async def get_name(update, context):
+    global name
     text = update.message.text
-    con = sqlite3.connect("universe_site.sqlite")
-    cur = con.cursor()
-    rez = [x[0] for x in cur.execute("""SELECT name FROM Users""").fetchall()]
+    rez = [user['id'] for user in get('http://127.0.0.1:8080/tg_get').json()]
     if text in rez:
+        name = text
         await update.message.reply_text(f"""А теперь введите свой email""")
         return 2
     await update.message.reply_text('''Такого пользователя нет на сайте,
@@ -51,11 +53,9 @@ async def get_name(update, context):
 async def get_email(update, context):
     text = update.message.text
     await update.message.reply_text('''Проверяем базу данных...''')
-    con = sqlite3.connect("universe_site.sqlite")
-    cur = con.cursor()
-    rez = [x[0] for x in cur.execute("""SELECT email FROM Users""").fetchall()]
-    if text in rez:
-        await update.message.reply_text('''Всё успешно. А теперь можно и поиграть..''',
+    rez = [[user['id'], user['text']] for user in get('http://127.0.0.1:8080/tg_get').json()]
+    if [name, text] in rez:
+        await update.message.reply_text(f'''{name}, всё успешно. А теперь можно и поиграть..''',
                                         reply_markup=markup_main)
         return ConversationHandler.END
     await update.message.reply_text('''Такого пользователя нет на сайте,
@@ -131,7 +131,7 @@ async def get_answer(update, context):
     con.commit()
     return ConversationHandler.END
 
-# Функция для рассчета статистики
+# Функция для расчета статистики
 async def statistic(update, context):
     keyboard = [['/help', '/game']]
     markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=False)
@@ -153,6 +153,7 @@ async def statistic(update, context):
             Вы занимаете {count + 1} место в глобальном списке''', reply_markup=markup)
         vals = [right, wrong]
         labels = ["right", "wrong"]
+        plt.clf()
         plt.pie(vals, labels=labels, autopct="%1.1f%%", colors=["green", 'red'])
         plt.title("Ваша статистика:")
         try:

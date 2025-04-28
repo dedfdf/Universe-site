@@ -1,14 +1,15 @@
-from flask import Flask, request, render_template, redirect, jsonify
+import flask
+from flask import Flask, request, render_template, redirect, jsonify, make_response
 from flask_mail import Mail, Message
 from flask_login import LoginManager, login_user, login_required, logout_user
 from werkzeug.utils import secure_filename
 from data import db_session
-from data.user import User
 import os
 from data.satellites import Satellite
 from data.planet import Planet
 from data.star_system import Star_System
 from data.galaxies import Galaxies
+from data.user import User
 from forms.check_galaxy_form import Check_GalaxyForm
 from forms.create_satellites_form import Create_Satellites_Form
 from forms.create_star_systems_form import Create_Star_System_Form
@@ -31,7 +32,7 @@ app.config['MAIL_USERNAME'] = 'my_bot_kira@mail.ru'
 app.config['MAIL_PASSWORD'] = ''
 app.config['UPLOAD_PATH'] = 'static/uploads'
 mail = Mail(app)
-blueprint = flask.Blueprint('users_api', __name__, template_folder='templates')
+
 
 @app.route('/')
 def main():
@@ -71,14 +72,16 @@ def create_satellites():
             satellite = Satellite()
             planet = db_sess.query(Planet).filter(Planet.name == form.planet.data)
             if not [x for x in planet]:
-                return render_template('create_satellite.html', form=form, message='Нет такой планеты')
+                return render_template('create_satellite.html', form=form,
+                                       message='Нет такой планеты')
             planet = planet[0]
             if db_sess.query(Satellite).filter(Satellite.name != form.name.data) and planet:
                 satellite.name = form.name.data
                 if uploaded_file.filename != '':
                     satellite.photo = 'static/uploads/' + filename
                     uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-                with open('static/uploads_txt/' + satellite.name + '.txt', 'w', encoding='utf-8') as file:
+                with open('static/uploads_txt/' + satellite.name + '.txt', 'w',
+                          encoding='utf-8') as file:
                     file.write(form.text.data)
                 satellite.text = 'static/uploads_txt/' + satellite.name + '.txt'
                 satellite.planet = planet.id
@@ -87,7 +90,8 @@ def create_satellites():
                 db_sess.close()
                 return redirect('/')
             db_sess.close()
-            return render_template('create_satellite.html', form=form, message='Такой спутник уже есть')
+            return render_template('create_satellite.html', form=form,
+                                   message='Такой спутник уже есть')
     return render_template('create_satellite.html', form=form)
 
 
@@ -107,7 +111,8 @@ def create_galaxy():
                 if uploaded_file.filename != '':
                     galaxy.photo = 'static/uploads/' + filename
                     uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-                with open('static/uploads_txt/' + galaxy.name + '.txt', 'w', encoding='utf-8') as file:
+                with open('static/uploads_txt/' + galaxy.name + '.txt', 'w',
+                          encoding='utf-8') as file:
                     file.write(form.text.data)
                 galaxy.text = 'static/uploads_txt/' + galaxy.name + '.txt'
                 db_sess.add(galaxy)
@@ -115,7 +120,8 @@ def create_galaxy():
                 db_sess.close()
                 return redirect('/')
             db_sess.close()
-            return render_template('create_galaxy.html', form=form, message='Такая галактика уже есть')
+            return render_template('create_galaxy.html', form=form,
+                                   message='Такая галактика уже есть')
     return render_template('create_galaxy.html', form=form)
 
 
@@ -130,7 +136,8 @@ def create_planet():
         if form.validate_on_submit():
             db_sess = db_session.create_session()
             planet = Planet()
-            star_system = db_sess.query(Star_System).filter(Star_System.name == form.star_system.data)
+            star_system = db_sess.query(Star_System).filter(
+                Star_System.name == form.star_system.data)
             if not [x for x in star_system]:
                 return render_template('create_planet.html', form=form, message='Такой системы нет')
 
@@ -139,7 +146,8 @@ def create_planet():
                 if uploaded_file.filename != '':
                     planet.photo = 'static/uploads/' + filename
                     uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-                with open('static/uploads_txt/' + planet.name + '.txt', 'w', encoding='utf-8') as file:
+                with open('static/uploads_txt/' + planet.name + '.txt', 'w',
+                          encoding='utf-8') as file:
                     file.write(form.text.data)
                 planet.text = 'static/uploads_txt/' + planet.name + '.txt'
                 planet.star_system = star_system.id
@@ -148,7 +156,8 @@ def create_planet():
                 db_sess.close()
                 return redirect('/')
             db_sess.close()
-            return render_template('create_planet.html', form=form, message='Такая планета уже есть')
+            return render_template('create_planet.html', form=form,
+                                   message='Такая планета уже есть')
     return render_template('create_planet.html', form=form)
 
 
@@ -165,13 +174,15 @@ def create_star_systems():
             star_system = Star_System()
             galaxy = db_sess.query(Galaxies).filter(Galaxies.name == form.galaxy.data)
             if [x for x in galaxy]:
-                return render_template('create_star_systems.html', form=form, message='Такой галактики нет')
+                return render_template('create_star_systems.html', form=form,
+                                       message='Такой галактики нет')
             if db_sess.query(Star_System).filter(star_system.name != form.name.data) and galaxy:
                 star_system.name = form.name.data
                 if uploaded_file.filename != '':
                     star_system.photo = 'static/uploads/' + filename
                     uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-                with open('static/uploads_txt/' + star_system.name + '.txt', 'w', encoding='utf-8') as file:
+                with open('static/uploads_txt/' + star_system.name + '.txt', 'w',
+                          encoding='utf-8') as file:
                     file.write(form.text.data)
                 star_system.text = 'static/uploads_txt/' + star_system.name + '.txt'
                 star_system.galaxy = galaxy[0].id
@@ -180,7 +191,8 @@ def create_star_systems():
                 db_sess.close()
                 return redirect('/')
             db_sess.close()
-            return render_template('create_star_systems.html', form=form, message='Такая звездная система уже есть')
+            return render_template('create_star_systems.html', form=form,
+                                   message='Такая звездная система уже есть')
     return render_template('create_star_systems.html', form=form)
 
 
@@ -277,7 +289,8 @@ def register():
                 login_user(user)
                 db_sess.close()
                 return redirect('/')
-            return render_template('register.html', form=form, message='С такой почтой пользователь уже есть')
+            return render_template('register.html', form=form,
+                                   message='С такой почтой пользователь уже есть')
         return render_template('register.html', form=form, message='Пароли не совпадают')
     return render_template('register.html', form=form)
 
@@ -319,14 +332,14 @@ def check_galaxy(id):
     pass
 
 
-@app.route('/check_galaxy', methods=['GET', 'POST'])
+# @app.route('/check_galaxy', methods=['GET', 'POST'])
 def check_galaxy():
     db_sess = db_session.create_session()
     form = Check_GalaxyForm()
     db_sess.close()
     if form.submit_return.data:
         return redirect('/')
-    #galaxy = db_sess.query(Galaxies).first(Galaxies.id == id)[0]
+    # galaxy = db_sess.query(Galaxies).first(Galaxies.id == id)[0]
     return render_template('check_galaxy.html', form=form)
 
 
@@ -341,17 +354,11 @@ def menu_login():
         return redirect('/logout')
     return render_template('menu_login.html', form=form)
 
-@app.route('api/users')
-def get_users():
+@app.route('/tg_get', methods=['GET'])
+def tg_get():
     db_sess = db_session.create_session()
-    users = db_sess.query(User).all()
-    return jsonify(
-        {
-            'users': [item.to_dict(only=('name', 'email'))
-                for item in users]
-
-        }
-    )
+    all_data = db_sess.query(User)
+    return jsonify([{'id': data.name, 'text': data.email} for data in all_data])
 
 
 @app.route('/autification_tg', methods=['GET', 'POST'])
