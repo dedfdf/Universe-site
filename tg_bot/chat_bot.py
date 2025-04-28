@@ -2,9 +2,10 @@ import logging
 from telegram.ext import Application, MessageHandler, filters, CommandHandler, ConversationHandler
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from random import choice, shuffle
-from tkn import TOKEN
+from tkn_st import TOKEN, site
 from planets import dict_planets
 import sqlite3
+import matplotlib.pyplot as plt
 
 # Логируем
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -28,7 +29,7 @@ async def start(update, context):
     user = update.effective_user
     await update.message.reply_text(f'''Приветствую, я бот-помощник по сайту 
     "Путешествие по вселенной", а так же со мной можно поиграть.
-Но для начала работы с ботом вам необходимо пройти регистрацию на нашем сайте https://,
+Но для начала работы с ботом вам необходимо пройти регистрацию на нашем сайте {site},
 после этого введите своё имя на сайте''', reply_markup=ReplyKeyboardRemove())
     return 1
 
@@ -149,6 +150,12 @@ async def statistic(update, context):
             Неправильных ответов - {wrong}
             Ваш процент правильных ответов - {round(right / (right + wrong) * 100, 2)}%
             Вы занимаете {count + 1} место в глобальном списке''', reply_markup=markup)
+        vals = [right, wrong]
+        labels = ["right", "wrong"]
+        plt.pie(vals, labels=labels, autopct="%1.1f%%", colors=["green", 'red'])
+        plt.title("Ваша статистика:")
+        plt.savefig('media/my_statistic.png')
+        await update.message.reply_photo('media/my_statistic.png', reply_markup=markup)
     else:
         await update.message.reply_text('Извините, но Вы еще не играли!', reply_markup=markup)
 
