@@ -6,6 +6,7 @@ from tkn_st import TOKEN, site # Токен для бота и ссылка на
 from planets import dict_planets # Изображения планет
 import sqlite3
 import matplotlib.pyplot as plt
+import os
 
 # Логируем
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -154,6 +155,10 @@ async def statistic(update, context):
         labels = ["right", "wrong"]
         plt.pie(vals, labels=labels, autopct="%1.1f%%", colors=["green", 'red'])
         plt.title("Ваша статистика:")
+        try:
+            os.remove('media/my_statistic.png')
+        except:
+            pass
         plt.savefig('media/my_statistic.png')
         await update.message.reply_photo('media/my_statistic.png', reply_markup=markup)
     else:
