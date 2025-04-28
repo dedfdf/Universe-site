@@ -9,6 +9,7 @@ from data.satellites import Satellite
 from data.planet import Planet
 from data.star_system import Star_System
 from data.galaxies import Galaxies
+from forms.check_galaxy_form import Check_GalaxyForm
 from forms.create_satellites_form import Create_Satellites_Form
 from forms.create_star_systems_form import Create_Star_System_Form
 from forms.create_planet_form import Create_Planet_Form
@@ -316,6 +317,17 @@ def catalog():
 @app.route('/check_galaxy/<int:id>')
 def check_galaxy(id):
     pass
+
+
+@app.route('/check_galaxy', methods=['GET', 'POST'])
+def check_galaxy():
+    db_sess = db_session.create_session()
+    form = Check_GalaxyForm()
+    db_sess.close()
+    if form.submit_return.data:
+        return redirect('/')
+    #galaxy = db_sess.query(Galaxies).first(Galaxies.id == id)[0]
+    return render_template('check_galaxy.html', form=form)
 
 
 @app.route('/menu_login', methods=['GET', 'POST'])
