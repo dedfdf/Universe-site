@@ -2,8 +2,8 @@ import logging
 from telegram.ext import Application, MessageHandler, filters, CommandHandler, ConversationHandler
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from random import choice, shuffle
-from tkn_st import TOKEN, site
-from planets import dict_planets
+from tkn_st import TOKEN, site # Токен для бота и ссылка на сайт
+from planets import dict_planets # Изображения планет
 import sqlite3
 import matplotlib.pyplot as plt
 
@@ -24,7 +24,7 @@ cur = con.cursor()
 async def close_keyboard(update, context):
     await update.message.reply_text(reply_markup=ReplyKeyboardRemove())
 
-
+# Функция для запуска бота
 async def start(update, context):
     user = update.effective_user
     await update.message.reply_text(f'''Приветствую, я бот-помощник по сайту 
@@ -70,7 +70,7 @@ async def helping(update, context):
         Связь с разработчиками: @Akimyshka23, @dedfd3''',
         reply_markup=markup)
 
-
+# Основная функция игры
 async def game(update, context):
     global answer
     answer = choice(list(dict_planets.keys()))
@@ -130,7 +130,7 @@ async def get_answer(update, context):
     con.commit()
     return ConversationHandler.END
 
-
+# Функция для рассчета статистики
 async def statistic(update, context):
     keyboard = [['/help', '/game']]
     markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=False)
@@ -164,7 +164,7 @@ async def stop(update, context):
     await update.message.reply_text("Всего доброго!")
     return ConversationHandler.END
 
-
+# Основная функция
 def main():
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("help", helping))
