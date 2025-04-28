@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, jsonify
 from flask_mail import Mail, Message
 from flask_login import LoginManager, login_user, login_required, logout_user
 from werkzeug.utils import secure_filename
@@ -30,7 +30,7 @@ app.config['MAIL_USERNAME'] = 'my_bot_kira@mail.ru'
 app.config['MAIL_PASSWORD'] = ''
 app.config['UPLOAD_PATH'] = 'static/uploads'
 mail = Mail(app)
-
+blueprint = flask.Blueprint('users_api', __name__, template_folder='templates')
 
 @app.route('/')
 def main():
@@ -328,6 +328,18 @@ def menu_login():
     if form.submit_leave.data:
         return redirect('/logout')
     return render_template('menu_login.html', form=form)
+
+@app.route('api/users')
+def get_users():
+    db_sess = db_session.create_session()
+    users = db_sess.query(User).all()
+    return jsonify(
+        {
+            'users': [item.to_dict(only=('name', 'email'))
+                for item in users]
+
+        }
+    )
 
 
 @app.route('/autification_tg', methods=['GET', 'POST'])
