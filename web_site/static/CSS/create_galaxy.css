@@ -1,0 +1,9 @@
+.container1{
+margin-top: 200px;
+margin-left: 500px;
+width: 1000px;
+height: auto;
+color: white;
+background-color: rgba(0, 0, 0, 0.7);
+border-radius: 5px;
+}
