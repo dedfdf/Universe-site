@@ -30,7 +30,7 @@ async def close_keyboard(update, context):
 # Функция для запуска бота
 async def start(update, context):
     user = update.effective_user
-    await update.message.reply_text(f'''Приветствую, я бот-помощник по сайту 
+    await update.message.reply_text(f'''Приветствую, я бот-дополнение по сайту 
     "Путешествие по вселенной", а так же со мной можно поиграть.
 Но для начала работы с ботом вам необходимо пройти регистрацию на нашем сайте {site},
 после этого введите своё имя на сайте''', reply_markup=ReplyKeyboardRemove())
@@ -99,14 +99,14 @@ async def get_answer(update, context):
             f'Совершенно верно, Вы отгадали, теперь можете посмотреть свою статистику (/statistic)',
             reply_markup=markup)
         rez = cur.execute("""SELECT user FROM statistic""").fetchall()
-        if str(update.effective_user.id) in [x[0] for x in rez]:
+        if name in [x[0] for x in rez]:
             n = cur.execute("""SELECT count_right FROM statistic WHERE user = ?""",
-                            (update.effective_user.id,)).fetchone()
+                            (name,)).fetchone()
             que = '''UPDATE statistic SET count_right = ? WHERE user = ?'''
-            cur.execute(que, (int(n[0]) + 1, update.effective_user.id))
+            cur.execute(que, (int(n[0]) + 1, name))
         else:
             que = """INSERT INTO statistic(user, count_right, count_wrong) VALUES(?, 1, 0)"""
-            cur.execute(que, (update.effective_user.id,))
+            cur.execute(que, (name,))
         con.commit()
         return ConversationHandler.END
     elif text == 'Сдаться':
@@ -119,15 +119,15 @@ async def get_answer(update, context):
     теперь можете посмотреть свою статистику (/statistic)''',
         reply_markup=markup)
     rez = cur.execute("""SELECT user FROM statistic""").fetchall()
-    if str(update.effective_user.id) in [x[0] for x in rez]:
+    if str(name) in [x[0] for x in rez]:
         n = cur.execute("""SELECT count_wrong FROM statistic WHERE user = ?""",
-                        (update.effective_user.id,)).fetchone()
+                        (name,)).fetchone()
         que = '''UPDATE statistic SET count_wrong = ? WHERE user = ?'''
-        cur.execute(que, (int(n[0]) + 1, update.effective_user.id))
+        cur.execute(que, (int(n[0]) + 1, name))
         con.commit()
     else:
         que = """INSERT INTO statistic(user, count_right, count_wrong) VALUES(?, 0, 1)"""
-        cur.execute(que, (update.effective_user.id,))
+        cur.execute(que, (name,))
     con.commit()
     return ConversationHandler.END
 
@@ -135,7 +135,7 @@ async def get_answer(update, context):
 async def statistic(update, context):
     keyboard = [['/help', '/game']]
     markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=False)
-    user = update.effective_user.id
+    user = name
     rez = list(cur.execute("""SELECT user FROM statistic""").fetchall())
     if str(user) in [x[0] for x in rez]:
         right = list(cur.execute("""SELECT count_right FROM statistic WHERE user = ?""",
