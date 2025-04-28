@@ -3,8 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Email
 from wtforms.validators import DataRequired, Email
 
 
-class LoginForm(FlaskForm):
-    login_email = EmailField('Почта', validators=[DataRequired(), Email()])
-    password = PasswordField('Пароль', validators=[DataRequired()])
-    submit = SubmitField('Войти')
+class GalaxyForm(FlaskForm):
+    name = StringField('Почта', validators=[DataRequired()])
+    submit = SubmitField('Создать')
     submit_return = SubmitField('Вернуться')

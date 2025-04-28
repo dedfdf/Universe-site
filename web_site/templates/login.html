@@ -10,6 +10,7 @@
 </head>
 <body style="background-image: url('static/image/sad.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
     <h1 align="center" style="color: white;">Добро пожаловать!</h1>
+    <div align="center">
     <form action="" method="post" novalidate>
         <div>
         {{ form.csrf_token }}
@@ -18,33 +19,39 @@
             <div class="row mb-3">
                 <label for="colFormLabel" class="col-sm-2 col-form-label" style="margin-top: 30px;">{{ form.login_email.label }}</label>
                 <div class="col-sm-10" style="margin-top: 30px;">
+                    <p>{{ form.login_email(class="form-control") }}</p>
                     {% for error in form.login_email.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
+                    <div class="alert alert-danger" role="alert" align="center" style="margin-top: 10px;">
+                        Ошибка в почте
                     </div>
                     {% endfor %}
-                    <p>{{ form.login_email(class="form-control") }}</p>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="colFormLabel" class="col-sm-2 col-form-label">{{ form.password.label(class="label") }}</label>
                 <div class="col-sm-10">
                     <div class="label1">
+                        {{ form.password(class="form-control")}}
                         {% for error in form.password.errors %}
-                        <div class="alert alert-danger" role="alert">
-                            {{ error }}
+                        <div class="alert alert-danger" role="alert" align="center" style="margin-top: 10px;">
+                            Ошибка в пароле
                         </div>
                         {% endfor %}
-                        {{ form.password(class="form-control")}}
                     </div>
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-sm-10" style="margin-top: 30px; margin-left: 200px;">
-                    {{ form.submit(type="submit", class="btn btn-outline-light") }}
+                <div class="col-sm-10" style="margin-top: 30px;">
+                    <div style="margin-top: 30px; float: left;">
+                        {{ form.submit(type="submit", class="btn btn-outline-light") }}
+                        {{ form.submit_return(type="submit", class="btn btn-outline-light") }}
+                    </div>
                 </div>
             </div>
+
         </div>
+
     </form>
+    </div>
 </body>
 </html>

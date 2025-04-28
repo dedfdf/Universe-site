@@ -1,7 +1,6 @@
 import datetime
 import sqlalchemy
 from .db_session import SqlAlchemyBase
-from sqlalchemy import orm
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -23,4 +22,7 @@ class User(SqlAlchemyBase, UserMixin):
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                       default=datetime.datetime.now)
-    teleg_is_auauthentication = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    teleg_pol_authentication = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    teleg_is_authentication = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True)
+    email_is_authentication = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True)
+    user_level = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)

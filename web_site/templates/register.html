@@ -14,27 +14,17 @@
     <div>
         {{ form.csrf_token }}
     </div>
-    {% if message %}
-    <div class="alert alert-danger" role="alert" style="margin-left: 30px;">
-        Не совпадают пароли
-    </div>
-    {% endif %}
-    {% for error in form.password.errors %}
-    <div class="alert alert-danger" role="alert" style="margin-left: 30px;">
-        Ошибка в пароле
-    </div>
-    {% endfor %}
-    {% for error in form.password_repeat.errors %}
-    <div class="alert alert-danger" role="alert" style="margin-left: 30px;">
-        Ошибка в пароле
-    </div>
-    {% endfor %}
     <div class="container1">
         <div class="row mb-3">
             <label for="colFormLabel" class="col-sm-2 col-form-label">{{ form.name.label(class="label") }}</label>
             <div class="col-sm-10">
                 <div class="label1">
                     <p>{{ form.name(class="form-control") }}</p>
+                    {% for error in form.name.errors %}
+                    <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
+                        Ошибка в имени
+                    </div>
+                    {% endfor %}
                 </div>
           </div>
         </div>
@@ -51,6 +41,11 @@
             <div class="col-sm-10">
                 <div class="label1">
                     {{ form.password(class="form-control")}}
+                    {% for error in form.password_repeat.errors %}
+                    <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
+                        Ошибка в пароле
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -59,13 +54,24 @@
             <div class="col-sm-10">
                 <div class="label1">
                     {{ form.password_repeat(class="form-control")}}
+                    {% for error in form.password.errors %}
+                    <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
+                        Ошибка в пароле
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
+        {% if message %}
+        <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
+            {{ message }}
+        </div>
+        {% endif %}
         <div class="row mb-3">
             <div class="col-sm-10">
                 <div class="label1">
                     {{ form.submit(type="submit", class="btn btn-outline-light") }}
+                    {{ form.submit_return(type="submit", class="btn btn-outline-light") }}
                 </div>
             </div>
         </div>

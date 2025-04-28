@@ -1,0 +1,41 @@
+{% extends "catalog.html" %}
+{% block content %}
+<head xmlns="http://www.w3.org/1999/html">
+    <title>Галактики</title>
+</head>
+<h1 align="center" style="color: white; margin-right: 100px;">Галактики</h1>
+{% if not arr %}
+<h1 align="center" style="color: white; margin-right: 100px;">Галактик пока нету</h1>
+{% else %}
+    <div class="container text-center" style="color: white; margin-top: 100px;" align="center">
+            <div class="row">
+                {% for i in arr[:5] %}
+                <div class="col" style="">
+                    {% if i.photo %}
+                    <a class="navbar-brand" style="color: white;" href="/check_galaxy/<int:id>">{{ i.name }}
+                        <p><img src="{{url_for('static', filename=i.photo[7:])}}" style="width: 200px; height: 200px; object-fit: cover;"></p>
+                    </a>
+                    {% else %}
+                    <div align="center">
+                        <a class="navbar-brand" style="color: white;" href="/check_galaxy/<int:id>">{{ i.name }}
+                        <div style="width: 200px; height: 200px; background-color: rgba(0, 0, 0, 0.5)" align="center">
+                        </div></a>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% if len_arr > 5 %}
+                <div class="row" style="margin-top: 40px;">
+                    {% for i in arr[5:] %}
+                        <div class="col">
+                            <div style="width: 200px; height: 200px; background-color: white; color: black;">
+                                {{i.name}}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+    </div>
+{% endif %}
+{% endblock %}
