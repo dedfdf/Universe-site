@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8e6fc26-60a6-42db-b373-a455b8ea22e7" name="Changes" comment="add req.get">
-      <change afterPath="$PROJECT_DIR$/documents/DocymProect.docx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_site/tests/ts1.py" afterDir="false" />
+    <list default="true" id="e8e6fc26-60a6-42db-b373-a455b8ea22e7" name="Changes" comment="add docem 3">
+      <change afterPath="$PROJECT_DIR$/tg_bot/media/55 Рака e.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tg_bot/media/CoKu Tau4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tg_bot/media/wasp-12b.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tg_bot/chat_bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/tg_bot/chat_bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tg_bot/planets.py" beforeDir="false" afterPath="$PROJECT_DIR$/tg_bot/planets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="4fc3c387902b1ea4891eae9dda63042534c786bb" />
+        <entry key="$PROJECT_DIR$" value="2bcf62414689c0768bd4fa3799d7be2ee17c2cd3" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,12 +60,14 @@
     "Python.ts1.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "bot",
-    "last_opened_file_path": "C:/Users/Аким/Desktop/Git/Universe-site/documents",
+    "last_opened_file_path": "C:/Users/Аким/Desktop/Git/Universe-site1/tg_bot/media",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Аким\Desktop\Git\Universe-site1\tg_bot\media" />
+      <recent name="C:\Users\Аким\Desktop\Git\Universe-site1\documents" />
       <recent name="C:\Users\Аким\Desktop\Git\Universe-site\documents" />
       <recent name="C:\Users\Аким\Desktop\Git\Universe-site" />
       <recent name="C:\Users\Аким\Desktop\Git\Universe-site\tg_bot\media" />
@@ -165,8 +168,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.chat_bot" />
-        <item itemvalue="Python.ts1" />
         <item itemvalue="Python.main (1)" />
+        <item itemvalue="Python.ts1" />
         <item itemvalue="Python.chat_bot" />
       </list>
     </recent_temporary>
@@ -267,7 +270,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745875176997</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="add docem 3">
+      <option name="closed" value="true" />
+      <created>1745919839089</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1745919839089</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -304,7 +315,8 @@
     <MESSAGE value="slivanie" />
     <MESSAGE value="add rest-api" />
     <MESSAGE value="add req.get" />
-    <option name="LAST_COMMIT_MESSAGE" value="add req.get" />
+    <MESSAGE value="add docem 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="add docem 3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
