@@ -1,2 +1,2 @@
 TOKEN = '7726772371:AAFjeHUR1cjLz0VhvHeoKHF1UjEvyedgtPM'
-site = 'https//:universe'
+site = 'http://127.0.0.1:8080'

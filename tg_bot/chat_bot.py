@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import os
 from requests import get
 
+# site = 'http//127.0.0.1:8080'
 # Логируем
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.DEBUG)
@@ -40,7 +41,7 @@ async def start(update, context):
 async def get_name(update, context):
     global name
     text = update.message.text
-    rez = [user['id'] for user in get('http://127.0.0.1:8080/tg_get').json()]
+    rez = [user['id'] for user in get(f'{site}/tg_get').json()]
     if text in rez:
         name = text
         await update.message.reply_text(f"""А теперь введите свой email""")
@@ -53,7 +54,7 @@ async def get_name(update, context):
 async def get_email(update, context):
     text = update.message.text
     await update.message.reply_text('''Проверяем базу данных...''')
-    rez = [[user['id'], user['text']] for user in get('http://127.0.0.1:8080/tg_get').json()]
+    rez = [[user['id'], user['text']] for user in get(f'{site}/tg_get').json()]
     if [name, text] in rez:
         await update.message.reply_text(f'''{name}, всё успешно. А теперь можно и поиграть..''',
                                         reply_markup=markup_main)
