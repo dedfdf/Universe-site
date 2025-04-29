@@ -75,7 +75,10 @@ async def helping(update, context):
 # Основная функция игры
 async def game(update, context):
     global answer
-    answer = choice(list(dict_planets.keys()))
+    answer_1 = choice(list(dict_planets.keys()))
+    while answer_1 == answer:
+        answer_1 = choice(list(dict_planets.keys()))
+    answer = answer_1
     list_answer = [answer]
     for i in range(3):
         first_wr_answer = choice(list(dict_planets.keys()))
