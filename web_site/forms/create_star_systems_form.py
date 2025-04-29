@@ -9,5 +9,5 @@ class Create_Star_System_Form(FlaskForm):
     galaxy = StringField('Название галактики в которой находится звездная система', [DataRequired()])
     text = TextAreaField('Описание звездной системы', [DataRequired()])
     file = FileField('Загрузить фотографию звездной системы', [FileAllowed(['jpg', 'png'])])
-    submit = SubmitField('Добавить')
+    submit = SubmitField('Добавить/Сохранить')
     submit_return = SubmitField('Вернуться')

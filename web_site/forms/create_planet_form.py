@@ -9,5 +9,5 @@ class Create_Planet_Form(FlaskForm):
     star_system = StringField('Название звездной системы в которой находится планета', [DataRequired()])
     text = TextAreaField('Описание планеты', [DataRequired()])
     file = FileField('Загрузить фотографию планеты', [FileAllowed(['jpg', 'png'])])
-    submit = SubmitField('Добавить')
+    submit = SubmitField('Добавить/Сохранить')
     submit_return = SubmitField('Вернуться')

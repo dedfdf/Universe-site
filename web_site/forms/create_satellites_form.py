@@ -9,5 +9,5 @@ class Create_Satellites_Form(FlaskForm):
     planet = StringField('Название планеты у которой находится спутник', [DataRequired()])
     text = TextAreaField('Описание спутника', [DataRequired()])
     file = FileField('Загрузить фотографию спутника', [FileAllowed(['jpg', 'png'])])
-    submit = SubmitField('Добавить')
+    submit = SubmitField('Добавить/Сохранить')
     submit_return = SubmitField('Вернуться')

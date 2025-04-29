@@ -8,6 +8,6 @@ class Create_Galaxy_Form(FlaskForm):
     name = StringField('Название галактики', [DataRequired()])
     text = TextAreaField('Описание галактики', [DataRequired()])
     file = FileField('Загрузить фотографию галактики', [FileAllowed(['jpg', 'png'])])
-    submit = SubmitField('Добавить')
+    submit = SubmitField('Добавить/Сохранить')
     submit_return = SubmitField('Вернуться')
 
