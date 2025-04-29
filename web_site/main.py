@@ -743,19 +743,6 @@ def tg_get():
     return jsonify([{'id': data.name, 'text': data.email} for data in all_data])
 
 
-@app.route('/autification_tg', methods=['GET', 'POST'])
-def autification_tg():
-    form = TgForm()
-    if form.submit_return.data:
-        return render_template('menu_login.html')
-    if form.validate_on_submit():
-        # Запрос в тг
-        # form.tg_id.data - здесь хранится id пользователя
-        return render_template('menu_login.html')  # если все хорошо
-        return render_template('autification_tg.html', form=form,
-                               message='Нету такого пользователя проверте данные которые вы вводите')
-        # если нету пользователя
-    return render_template('autification_tg.html', form=form)
 
 
 if __name__ == '__main__':
