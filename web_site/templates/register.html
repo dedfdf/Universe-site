@@ -19,12 +19,12 @@
             <label for="colFormLabel" class="col-sm-2 col-form-label">{{ form.name.label(class="label") }}</label>
             <div class="col-sm-10">
                 <div class="label1">
-                    <p>{{ form.name(class="form-control") }}</p>
+                    {{ form.name(class="form-control") }}
+                    <div style="color: red;">
                     {% for error in form.name.errors %}
-                    <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
-                        Ошибка в имени
-                    </div>
+                        Имя не должно быть пустым
                     {% endfor %}
+                    </div>
                 </div>
           </div>
         </div>
@@ -32,7 +32,12 @@
             <label for="colFormLabel" class="col-sm-2 col-form-label">{{ form.login_email.label(class="label") }}</label>
             <div class="col-sm-10">
                 <div class="label1">
+                    <div style="margin-top: 10px; color: red;">
                     {{ form.login_email(class="form-control")}}
+                    {% for error in form.login_email.errors %}
+                        Некорректная почта
+                    {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -40,12 +45,18 @@
             <label for="colFormLabel" class="col-sm-2 col-form-label">{{ form.password.label(class="label") }}</label>
             <div class="col-sm-10">
                 <div class="label1">
+                    <div style="margin-top: 10px; color: red;">
                     {{ form.password(class="form-control")}}
-                    {% for error in form.password_repeat.errors %}
-                    <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
-                        Ошибка в пароле
+                    {% for error in form.password.errors %}
+                        Пароль должен быть: больше 8 символов, минимум 1 латинаская буква, минимум 1 цифра'
+                        {% endfor %}
+                    {% if message[0] == 1 %}
+                        {{ message[1] }}
+                    {% endif %}
+                    {% if message[0] == 2 %}
+                            {{ message[1] }}
+                    {% endif %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -53,20 +64,21 @@
             <label for="colFormLabel" class="col-sm-2 col-form-label">{{ form.password_repeat.label(class="label") }}</label>
             <div class="col-sm-10">
                 <div class="label1">
+                    <div style="margin-top: 10px; color: red;">
                     {{ form.password_repeat(class="form-control")}}
-                    {% for error in form.password.errors %}
-                    <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
-                        Ошибка в пароле
+                    {% for error in form.password_repeat.errors %}
+                        Пароль должен быть: больше 8 символов, минимум 1 латинаская буква, минимум 1 цифра'
+                        {% endfor %}
+                    {% if message[0] == 1 %}
+                        {{ message[1] }}
+                    {% endif %}
+                    {% if message[0] == 2 %}
+                            {{ message[1] }}
+                    {% endif %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>
-        {% if message %}
-        <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
-            {{ message }}
-        </div>
-        {% endif %}
         <div class="row mb-3">
             <div class="col-sm-10">
                 <div class="label1">

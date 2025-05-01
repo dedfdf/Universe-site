@@ -7,19 +7,19 @@
     <div class="container text-center" style="color: white; margin-top: 100px;" align="center">
             <div class="row">
                 {% for i in arr[:4] %}
-                <div class="col" style="">
+                <div class="col">
                     {% if current_user.user_level >= 4 %}
                     <p><a href="/edit_galaxy/{{ i.id }}" class="btn btn-outline-warning">Редактировать</a>
                     <a href="/delete_galaxy/{{ i.id }}" class="btn btn-outline-danger">Удалить</a></p>
                     {% endif %}
                     {% if i.photo %}
                     <a class="navbar-brand" style="color: white;" href="/check_galaxy/{{i.id}}">{{ i.name }}
-                        <p><img src="{{url_for('static', filename=i.photo[7:])}}" style="width: 200px; height: 200px; object-fit: cover;  opacity: 0.7;"></p>
+                        <p><img src="{{url_for('static', filename=i.photo[7:])}}" style="width: 300px; height: 300px; object-fit: cover;  opacity: 0.7;"></p>
                     </a>
                     {% else %}
                     <div align="center">
                         <a class="navbar-brand" style="color: white;" href="/check_galaxy/{{i.id}}">{{ i.name }}
-                        <div style="width: 200px; height: 200px; background-color: rgba(0, 0, 0, 0.5)" align="center">
+                        <div style="width: 300px; height: 300px; background-color: rgba(0, 0, 0, 0.5)" align="center">
                         </div></a>
                     </div>
                     {% endif %}
@@ -36,12 +36,12 @@
                         {% endif %}
                         {% if i.photo %}
                         <a class="navbar-brand" style="color: white;" href="/check_galaxy/{{i.id}}">{{ i.name }}
-                            <p><img src="{{url_for('static', filename=i.photo[7:])}}" style="width: 200px; height: 200px; object-fit: cover; opacity: 0.7;"></p>
+                            <p><img src="{{url_for('static', filename=i.photo[7:])}}" style="width: 300px; height: 300px; object-fit: cover; opacity: 0.7;"></p>
                         </a>
                         {% else %}
                         <div align="center">
                             <a class="navbar-brand" style="color: white;" href="/check_galaxy/{{i.id}}">{{ i.name }}
-                            <div style="width: 200px; height: 200px; background-color: rgba(0, 0, 0, 0.5)" align="center">
+                            <div style="width: 300px; height: 300px; background-color: rgba(0, 0, 0, 0.5)" align="center">
                             </div></a>
                         </div>
                         {% endif %}
@@ -52,7 +52,7 @@
             {% endif %}
     </div>
     <form action="" method="post" novalidate>
-    <div align="center" style="margin-top: 200px;">
+    <div align="center" style="margin-top: 50px;">
         {{ form.submit_left_page(type="submit", class="btn btn-outline-light") }}
         <span style="color: white;">{{ page }}</span>
         {{ form.submit_right_page(type="submit", class="btn btn-outline-light") }}

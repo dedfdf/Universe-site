@@ -9,11 +9,27 @@
 <body style="background-image: url('/static/image/sad.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover; color: white;">
 <div style="background-color: rgba(0, 0, 0, 0.5);" align="center">
     <form action="" method="post" novalidate>
-        {{ form.submit_create_galaxy(type="submit", class="btn btn-outline-light") }}
-        {{ form.submit_create_star_system(type="submit", class="btn btn-outline-light") }}
-        {{ form.submit_create_planet(type="submit", class="btn btn-outline-light") }}
-        {{ form.submit_satellite(type="submit", class="btn btn-outline-light") }}
-        {{ form.submit_return(type="submit", class="btn btn-outline-light") }}
+        <div class="row">
+            <div class="col">
+                {{ form.submit_create_galaxy(type="submit", class="btn btn-outline-light", style="height: 100%; width: 100%;") }}
+            </div>
+            <div class="col">
+                {{ form.submit_create_star_system(type="submit", class="btn btn-outline-light", style="height: 100%; width:
+                100%;") }}
+            </div>
+            <div class="col">
+                {{ form.submit_create_planet(type="submit", class="btn btn-outline-light", style="height: 100%; width: 100%;")
+                }}
+            </div>
+            <div class="col">
+                {{ form.submit_satellite(type="submit", class="btn btn-outline-light", style="height: 100%; width:
+                100%;") }}
+            </div>
+            <div class="col">
+                {{ form.submit_return(type="submit", class="btn btn-outline-light", style="height: 100%; width: 100%;")
+                }}
+            </div>
+        </div>
     </form>
 </div>
 

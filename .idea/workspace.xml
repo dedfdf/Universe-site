@@ -5,11 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8e6fc26-60a6-42db-b373-a455b8ea22e7" name="Changes" comment="add docem 3">
-      <change afterPath="$PROJECT_DIR$/tg_bot/media/55 Рака e.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tg_bot/media/CoKu Tau4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tg_bot/media/wasp-12b.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web_site/forms/base_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pythonProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pythonProject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tg_bot/planets.py" beforeDir="false" afterPath="$PROJECT_DIR$/tg_bot/planets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tg_bot/chat_bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/tg_bot/chat_bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/db/universe_site.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/db/universe_site.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/forms/create_star_systems_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/forms/create_star_system_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/forms/login_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/forms/login_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/forms/register_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/forms/register_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/static/uploads/asd.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/static/uploads/ggg.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/templates/catalog.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/catalog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/templates/choise_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/choise_create.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/templates/create_star_systems.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/create_star_system.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/templates/galaxy.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/galaxy.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/templates/planet.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/planet.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/templates/satellites.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/satellites.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_site/templates/star_systems.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/star_systems.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +44,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="2bcf62414689c0768bd4fa3799d7be2ee17c2cd3" />
+        <entry key="$PROJECT_DIR$" value="detached" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -40,7 +58,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/dedfdf/Universe-site&quot;,
-    &quot;accountId&quot;: &quot;ecf8b32b-85b0-4e23-b25c-5c2ec0d2deb6&quot;
+    &quot;accountId&quot;: &quot;840b4df1-129c-43c7-bd8e-fb96876dba37&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -59,8 +77,8 @@
     "Python.main.executor": "Run",
     "Python.ts1.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "bot",
-    "last_opened_file_path": "C:/Users/Аким/Desktop/Git/Universe-site1/tg_bot/media",
+    "git-widget-placeholder": "detached",
+    "last_opened_file_path": "C:/Users/USER/Documents/Desktop/Universe-site1",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
@@ -76,7 +94,7 @@
       <recent name="C:\Users\Аким\Desktop\Git\Universe-site\tg_bot" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.chat_bot">
+  <component name="RunManager" selected="Python.main (1)">
     <configuration name="chat_bot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pythonProject" />
       <option name="ENV_FILES" value="" />
@@ -167,8 +185,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.chat_bot" />
         <item itemvalue="Python.main (1)" />
+        <item itemvalue="Python.chat_bot" />
         <item itemvalue="Python.ts1" />
         <item itemvalue="Python.chat_bot" />
       </list>
@@ -177,7 +195,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-98f27166c754-ba05f1cad1b1-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.21829.153" />
+        <option value="bundled-python-sdk-975db3bf15a3-31b6be0877a2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.18034.82" />
       </set>
     </attachedChunks>
   </component>
@@ -282,23 +300,26 @@
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="master" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="origin/master" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -320,6 +341,12 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/web_site/forms/chooise_create.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
