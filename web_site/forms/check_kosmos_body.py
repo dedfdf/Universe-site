@@ -3,5 +3,5 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Email
 from wtforms.validators import DataRequired, Email
 
 
-class Check_Galaxy_Form(FlaskForm):
+class Check_Kosmos_Body_Form(FlaskForm):
     submit_return = SubmitField('Вернуться')

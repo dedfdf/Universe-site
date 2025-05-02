@@ -4,7 +4,7 @@ from flask_wtf.file import FileField, FileAllowed
 from wtforms.validators import DataRequired
 
 
-class Create_Satellites_Form(FlaskForm):
+class Create_Satellite_Form(FlaskForm):
     name = StringField('Название спутника', [DataRequired()])
     planet = StringField('Название планеты у которой находится спутник', [DataRequired()])
     text = TextAreaField('Описание спутника', [DataRequired()])

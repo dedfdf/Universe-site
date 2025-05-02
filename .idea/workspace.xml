@@ -5,29 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8e6fc26-60a6-42db-b373-a455b8ea22e7" name="Changes" comment="add docem 3">
-      <change afterPath="$PROJECT_DIR$/web_site/forms/base_form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pythonProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pythonProject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tg_bot/chat_bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/tg_bot/chat_bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/db/universe_site.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/db/universe_site.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/forms/create_star_systems_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/forms/create_star_system_form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/forms/login_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/forms/login_form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/forms/register_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/forms/register_form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/static/uploads/asd.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/static/uploads/ggg.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/templates/catalog.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/catalog.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/templates/choise_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/choise_create.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/templates/create_star_systems.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/create_star_system.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/templates/galaxy.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/galaxy.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/templates/planet.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/planet.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/templates/satellites.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/satellites.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_site/templates/star_systems.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_site/templates/star_systems.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +55,7 @@
     "Python.main.executor": "Run",
     "Python.ts1.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "detached",
+    "git-widget-placeholder": "master",
     "last_opened_file_path": "C:/Users/USER/Documents/Desktop/Universe-site1",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }

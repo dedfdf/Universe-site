@@ -1,5 +1,4 @@
-from flask import Flask, request, render_template, redirect, jsonify, make_response
-from flask_mail import Mail, Message
+from flask import Flask, request, render_template, redirect, jsonify, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user
 from werkzeug.utils import secure_filename
 from data import db_session
@@ -11,11 +10,8 @@ from data.galaxies import Galaxies
 from data.user import User
 from forms.base_form import Base_Form
 from forms.chooise_create import Choise_Create_Form
-from forms.check_galaxy_form import Check_Galaxy_Form
-from forms.check_star_system import Check_Star_System_Form
-from forms.check_planet_form import Check_Planet_Form
-from forms.check_satellites_form import Check_satellites_Form
-from forms.create_satellites_form import Create_Satellites_Form
+from forms.check_kosmos_body import Check_Kosmos_Body_Form
+from forms.create_satellite_form import Create_Satellite_Form
 from forms.create_star_system_form import Create_Star_System_Form
 from forms.create_planet_form import Create_Planet_Form
 from forms.create_galaxy_form import Create_Galaxy_Form
@@ -27,22 +23,16 @@ from forms.register_form import RegisterForm
 app = Flask(__name__)
 login_manager = LoginManager()
 login_manager.init_app(app)
-app.config['SECRET_KEY'] = 'universe_site_Akim_and_Val_secret_key'
-app.config['MAIL_SERVER'] = 'http://127.0.0.1:8080'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'my_bot_kira@mail.ru'
-app.config['MAIL_PASSWORD'] = ''
+app.config['SECRET_KEY'] = 'universe_site_Akim_and_Val_secret_key'  # секретный ключ
 app.config['UPLOAD_PATH'] = 'static/uploads'
-mail = Mail(app)
 
 
-@app.route('/')
-def main():
+@app.route('/')  # Начало сайта
+def index():
     return render_template('main_window.html')
 
 
-@app.route('/logout')
+@app.route('/logout')  # Логирование пользователя
 @login_required
 def logout():
     logout_user()
@@ -56,16 +46,13 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
-def send_email(subject, sender, recipients, text_body, html_body):
-    msg = Message(subject, sender=sender, recipients=recipients)
-    msg.body = text_body
-    msg.html = html_body
-    mail.send(msg)
-
-
-@app.route('/create_satellites', methods=['GET', 'POST'])
-def create_satellites():
-    form = Create_Satellites_Form()
+# Создание космических тел, всё расписаны по каждой категории: create_satellites - создание спутника,
+# create_planet - создание планеты, create_star_system -
+# создание звездной системы, create_galaxy - создание галактики
+# create_satellites - создание спутника
+@app.route('/create_satellite', methods=['GET', 'POST'])
+def create_satellite():
+    form = Create_Satellite_Form()
     form1 = Base_Form()
     if request.method == 'POST':
         if form1.submit_planets.data:
@@ -73,7 +60,7 @@ def create_satellites():
         if form1.submit_galaxy.data:
             return redirect('/create_galaxy')
         if form1.submit_satellites.data:
-            return redirect('/create_satellites')
+            return redirect('/create_satellite')
         if form1.submit_star_systems.data:
             return redirect('/create_star_system')
         if form.submit_return.data:
@@ -107,6 +94,7 @@ def create_satellites():
     return render_template('create_satellite.html', form=form, form1=form1)
 
 
+# create_galaxy - создание галактики
 @app.route('/create_galaxy', methods=['GET', 'POST'])
 def create_galaxy():
     form = Create_Galaxy_Form()
@@ -117,7 +105,7 @@ def create_galaxy():
         if form1.submit_galaxy.data:
             return redirect('/create_galaxy')
         if form1.submit_satellites.data:
-            return redirect('/create_satellites')
+            return redirect('/create_satellite')
         if form1.submit_star_systems.data:
             return redirect('/create_star_system')
         if form.submit_return.data:
@@ -147,6 +135,7 @@ def create_galaxy():
     return render_template('create_galaxy.html', form=form, form1=form1)
 
 
+# create_planet - создание планеты
 @app.route('/create_planet', methods=['GET', 'POST'])
 def create_planet():
     form = Create_Planet_Form()
@@ -157,7 +146,7 @@ def create_planet():
         if form1.submit_galaxy.data:
             return redirect('/create_galaxy')
         if form1.submit_satellites.data:
-            return redirect('/create_satellites')
+            return redirect('/create_satellite')
         if form1.submit_star_systems.data:
             return redirect('/create_star_system')
         if form.submit_return.data:
@@ -193,7 +182,7 @@ def create_planet():
                                    message='Такая планета уже есть')
     return render_template('create_planet.html', form=form, form1=form1)
 
-
+# create_star_system - создание звездной системы
 @app.route('/create_star_system', methods=['GET', 'POST'])
 def create_star_system():
     form = Create_Star_System_Form()
@@ -204,7 +193,7 @@ def create_star_system():
         if form1.submit_galaxy.data:
             return redirect('/create_galaxy')
         if form1.submit_satellites.data:
-            return redirect('/create_satellites')
+            return redirect('/create_satellite')
         if form1.submit_star_systems.data:
             return redirect('/create_star_system')
         if form.submit_return.data:
@@ -232,13 +221,17 @@ def create_star_system():
                 db_sess.add(star_system)
                 db_sess.commit()
                 db_sess.close()
-                return redirect('/star_systems/1')
+                return redirect('/star_system/1')
             db_sess.close()
             return render_template('create_star_system.html', form=form,
                                    message='Такая звездная система уже есть', form1=form1)
     return render_template('create_star_system.html', form=form, form1=form1)
 
 
+# Редактирование космических тел, всё расписаны по каждой категории: edit_satellites - редактирование спутника,
+# edit_planet - редактирование планеты, edit_star_system -
+# редактирование звездной системы, edit_galaxy - редактирование галактики
+# edit_galaxy - редактирование галактики
 @app.route('/edit_galaxy/<int:id_galaxy>', methods=['GET', 'POST'])
 def edit_galaxy(id_galaxy):
     form = Create_Galaxy_Form()
@@ -281,7 +274,7 @@ def edit_galaxy(id_galaxy):
     db_sess.close()
     return render_template('create_galaxy.html', form=form, form1=form1)
 
-
+# edit_star_system - редактирование звездной системы
 @app.route('/edit_star_system/<int:id_star_system>', methods=['GET', 'POST'])
 def edit_star_system(id_star_system):
     form = Create_Star_System_Form()
@@ -290,7 +283,7 @@ def edit_star_system(id_star_system):
     star_system = db_sess.query(Star_System).filter(Star_System.id == id_star_system)
     if form.submit_return.data:
         db_sess.close()
-        return redirect('/star_systems/1')
+        return redirect('/star_system/1')
     star_system = star_system[0]
     if not form.submit.data:
         form.name.data = star_system.name
@@ -321,7 +314,8 @@ def edit_star_system(id_star_system):
                     if os.path.isfile(star_system.photo):
                         os.remove(star_system.photo)
                 uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-                os.rename('static/uploads/' + filename, 'static/uploads/' + f"{star_system.name}.{filename.split('.')[-1]}")
+                os.rename('static/uploads/' + filename,
+                          'static/uploads/' + f"{star_system.name}.{filename.split('.')[-1]}")
                 star_system.photo = 'static/uploads/' + f"{star_system.name}.{filename.split('.')[-1]}"
         with open('static/uploads_txt/' + star_system.name + '.txt', 'w', encoding='utf-8') as file:
             file.write(form.text.data)
@@ -330,11 +324,11 @@ def edit_star_system(id_star_system):
         db_sess.add(star_system)
         db_sess.commit()
         db_sess.close()
-        return redirect('/star_systems/1')
+        return redirect('/star_system/1')
     db_sess.close()
     return render_template('create_star_system.html', form=form, form1=form1)
 
-
+# edit_planet - редактирование планеты
 @app.route('/edit_planet/<int:id_planet>', methods=['GET', 'POST'])
 def edit_planet(id_planet):
     form = Create_Planet_Form()
@@ -385,10 +379,12 @@ def edit_planet(id_planet):
     db_sess.close()
     return render_template('create_planet.html', form=form, form1=form1)
 
+# edit_satellites - Редактирование спутника
 
 @app.route('/edit_satellite/<int:id_satellite>', methods=['GET', 'POST'])
 def edit_satellite(id_satellite):
-    form = Create_Satellites_Form()
+    form = Create_Satellite_Form()
+    form1 = Base_Form()
     db_sess = db_session.create_session()
     satellite = db_sess.query(Satellite).filter(Satellite.id == id_satellite)
     if form.submit_return.data:
@@ -424,7 +420,8 @@ def edit_satellite(id_satellite):
                     if os.path.isfile(satellite.photo):
                         os.remove(satellite.photo)
                 uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-                os.rename('static/uploads/' + filename, 'static/uploads/' + f"{satellite.name}.{filename.split('.')[-1]}")
+                os.rename('static/uploads/' + filename,
+                          'static/uploads/' + f"{satellite.name}.{filename.split('.')[-1]}")
                 satellite.photo = 'static/uploads/' + f"{satellite.name}.{filename.split('.')[-1]}"
         with open('static/uploads_txt/' + satellite.name + '.txt', 'w', encoding='utf-8') as file:
             file.write(form.text.data)
@@ -438,6 +435,10 @@ def edit_satellite(id_satellite):
     return render_template('create_satellite.html', form=form, form1=form1)
 
 
+# Удаление космических тел, всё расписаны по каждой категории: delete_satellites - удаление спутника,
+# delete_planet - удаление планеты, delete_star_system -
+# удаление звездной системы, delete_galaxy - удаление галактики
+# delete_galaxy - удаление галактики
 @app.route('/delete_galaxy/<int:id_galaxy>', methods=['GET', 'POST'])
 def delete_galaxy(id_galaxy):
     db_sess = db_session.create_session()
@@ -458,7 +459,7 @@ def delete_galaxy(id_galaxy):
     db_sess.close()
     return redirect('/galaxy/1')
 
-
+# delete_star_system - удаление звездной системы
 @app.route('/delete_star_system/<int:id_star_system>', methods=['GET', 'POST'])
 def delete_star_system(id_star_system):
     db_sess = db_session.create_session()
@@ -477,9 +478,10 @@ def delete_star_system(id_star_system):
     db_sess.delete(star_system)
     db_sess.commit()
     db_sess.close()
-    return redirect('/star_systems/1')
+    return redirect('/star_system/1')
 
 
+# delete_planet - удаление планеты
 @app.route('/delete_planet/<int:id_planet>', methods=['GET', 'POST'])
 def delete_planet(id_planet):
     db_sess = db_session.create_session()
@@ -501,6 +503,7 @@ def delete_planet(id_planet):
     return redirect('/planet/1')
 
 
+# delete_satellites - удаление спутника
 @app.route('/delete_satellite/<int:id_satellite>', methods=['GET', 'POST'])
 def delete_satellite(id_satellite):
     db_sess = db_session.create_session()
@@ -518,6 +521,8 @@ def delete_satellite(id_satellite):
     return redirect('/planet/1')
 
 
+# Страницы каталогов для космических тел: satellites - спутник, planet - планета, star_system - звездная система,
+# galaxy - галактика
 @app.route('/galaxy/<int:page>', methods=['GET', 'POST'])
 def galaxies(page):
     form = CatalogForm()
@@ -538,7 +543,7 @@ def galaxies(page):
     if form.submit_planets.data:
         return redirect('/planet/1')
     if form.submit_star_systems.data:
-        return redirect('/star_systems/1')
+        return redirect('/star_system/1')
     if form.submit_choise_create.data:
         return redirect('/choise_create')
     if form.submit_satellites.data:
@@ -546,8 +551,8 @@ def galaxies(page):
     return render_template('galaxy.html', form=form, arr=arr, len_arr=len(arr), page=page)
 
 
-@app.route('/star_systems/<int:page>', methods=['GET', 'POST'])
-def star_systems(page):
+@app.route('/star_system/<int:page>', methods=['GET', 'POST'])
+def star_system(page):
     form = CatalogForm()
     db_sess = db_session.create_session()
     arr = db_sess.query(Star_System).filter(Star_System.id != 1)
@@ -557,10 +562,10 @@ def star_systems(page):
     db_sess.close()
     if form.submit_left_page.data:
         if page > 1:
-            return redirect(f'/star_systems/{page - 1}')
+            return redirect(f'/star_system/{page - 1}')
     if form.submit_right_page.data:
         if page < n:
-            return redirect(f'/star_systems/{page + 1}')
+            return redirect(f'/star_system/{page + 1}')
     if form.submit_return.data:
         return redirect('/')
     if form.submit_galaxy.data:
@@ -594,7 +599,7 @@ def planets(page):
     if form.submit_galaxy.data:
         return redirect('/galaxy/1')
     if form.submit_star_systems.data:
-        return redirect('/star_systems/1')
+        return redirect('/star_system/1')
     if form.submit_choise_create.data:
         return redirect('/choise_create')
     if form.submit_satellites.data:
@@ -626,10 +631,11 @@ def satellites(page):
     if form.submit_choise_create.data:
         return redirect('/choise_create')
     if form.submit_star_systems.data:
-        return redirect('/star_systems/1')
+        return redirect('/star_system/1')
     return render_template('satellites.html', form=form, arr=arr, len_arr=len(arr), page=page)
 
 
+#  Выбор создания космических тел
 @app.route('/choise_create', methods=['GET', 'POST'])
 def choise_create():
     form = Choise_Create_Form()
@@ -640,12 +646,13 @@ def choise_create():
     if form.submit_create_planet.data:
         return redirect('/create_planet')
     if form.submit_satellite.data:
-        return redirect('/create_satellites')
+        return redirect('/create_satellite')
     if form.submit_return.data:
         return redirect('/galaxy/1')
     return render_template('choise_create.html', form=form)
 
 
+# Регистрация
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -692,9 +699,12 @@ def register():
             login_user(user)
             db_sess.close()
             return redirect('/')
+        message = [3, 'Пользователь с такой почтой уже есть']
+        return render_template('register.html', form=form, message=message)
     return render_template('register.html', form=form, message=message)
 
 
+# Авторизация
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -716,86 +726,42 @@ def login():
     return render_template('login.html', form=form, message=message)
 
 
-@app.route('/check_galaxy/<int:id_galaxy>', methods=['GET', 'POST'])
-def check_galaxy(id_galaxy):
+# Рассмотр космических объектов
+
+@app.route('/check_kosmos_body/<int:id_kosmos_body>/<name>', methods=['GET', 'POST'])
+def check_kosmos_body(id_kosmos_body, name):
     db_sess = db_session.create_session()
-    form = Check_Galaxy_Form()
-    galaxy = db_sess.query(Galaxies).filter(Galaxies.id == id_galaxy)[0]
-    db_sess.close()
+    form = Check_Kosmos_Body_Form()
+    title = ''
+    kosmos_body = ''
+    if name == 'galaxy':
+        kosmos_body = Galaxies
+        title = 'Галактика'
+    if name == 'planet':
+        kosmos_body = Planet
+        title = 'Планета'
+    if name == 'satellite':
+        kosmos_body = Satellite
+    if name == 'star_system':
+        kosmos_body = Star_System
+        title = 'Звездная система'
     if form.submit_return.data:
-        return redirect('/galaxy/1')
+        return redirect(f'/{name}/1')
+    kosmos_body = db_sess.query(kosmos_body).filter(kosmos_body.id == id_kosmos_body)[0]
+    db_sess.close()
     text = ''
-    if galaxy.text:
-        if os.path.isfile(galaxy.text):
-            with open(galaxy.text, 'r', encoding='utf-8') as file:
+    if kosmos_body.text:
+        if os.path.isfile(kosmos_body.text):
+            with open(kosmos_body.text, 'r', encoding='utf-8') as file:
                 text = file.readlines()
     photo = ''
-    if galaxy.photo:
-        if os.path.isfile(galaxy.photo):
-            photo = galaxy.photo
-    return render_template('check_galaxy.html', form=form, galaxy=galaxy, text=text, photo=photo)
+    if kosmos_body.photo:
+        if os.path.isfile(kosmos_body.photo):
+            photo = kosmos_body.photo
+    return render_template(f'check_kosmos_body.html', form=form, kosmos_body=kosmos_body, text=text, photo=photo)
 
 
-@app.route('/check_star_system/<int:id_star_system>', methods=['GET', 'POST'])
-def check_star_system(id_star_system):
-    db_sess = db_session.create_session()
-    form = Check_Star_System_Form()
-    star_system = db_sess.query(Star_System).filter(Star_System.id == id_star_system)[0]
-    db_sess.close()
-    if form.submit_return.data:
-        return redirect('/star_systems/1')
-    text = ''
-    if star_system.text:
-        if os.path.isfile(star_system.text):
-            with open(star_system.text, 'r', encoding='utf-8') as file:
-                text = file.readlines()
-    photo = ''
-    if star_system.photo:
-        if os.path.isfile(star_system.photo):
-            photo = star_system.photo
-    return render_template('check_star_system.html', form=form, star_system=star_system, text=text, photo=photo)
-
-
-@app.route('/check_planet/<int:id_planet>', methods=['GET', 'POST'])
-def check_planet(id_planet):
-    db_sess = db_session.create_session()
-    form = Check_Planet_Form()
-    planet = db_sess.query(Planet).filter(Planet.id == id_planet)[0]
-    db_sess.close()
-    if form.submit_return.data:
-        return redirect('/planet/1')
-    text = ''
-    if planet.text:
-        if os.path.isfile(planet.text):
-            with open(planet.text, 'r', encoding='utf-8') as file:
-                text = file.readlines()
-    photo = ''
-    if planet.photo:
-        if os.path.isfile(planet.photo):
-            photo = planet.photo
-    return render_template('check_planet.html', form=form, planet=planet, text=text, photo=photo)
-
-
-@app.route('/check_satellite/<int:id_satellite>', methods=['GET', 'POST'])
-def check_satellite(id_satellite):
-    db_sess = db_session.create_session()
-    form = Check_satellites_Form()
-    satellite = db_sess.query(Satellite).filter(Satellite.id == id_satellite)[0]
-    db_sess.close()
-    if form.submit_return.data:
-        return redirect('/satellites/1')
-    text = ''
-    if satellite.text:
-        if os.path.isfile(satellite.text):
-            with open(satellite.text, 'r', encoding='utf-8') as file:
-                text = file.readlines()
-    photo = ''
-    if satellite.photo:
-        if os.path.isfile(satellite.photo):
-            photo = satellite.photo
-    return render_template('check_satellite.html', form=form, satellite=satellite, text=text, photo=photo)
-
-
+# Профиль авторизованного человека
 @app.route('/menu_login', methods=['GET', 'POST'])
 def menu_login():
     form = MenuForm()
@@ -808,6 +774,7 @@ def menu_login():
     return render_template('menu_login.html', form=form)
 
 
+# Запрос для тг бота
 @app.route('/tg_get', methods=['GET'])
 def tg_get():
     db_sess = db_session.create_session()
@@ -816,5 +783,5 @@ def tg_get():
 
 
 if __name__ == '__main__':
-    db_session.global_init(f"db/universe_site.sqlite")
-    app.run(port=8080, host='127.0.0.1')
+    db_session.global_init(f"db/universe_site.sqlite")  # В глобальную переменную для бд кладу бд
+    app.run(port=8080, host='127.0.0.1')  # Запуск сайта

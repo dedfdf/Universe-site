@@ -21,13 +21,32 @@
         </div>
     </form>
     <h1 align="center" style="color: white;">Здравствуй! {{ current_user.name }}</h1>
-    <div style="color: white; margin-top: 300px;">
+    <div style="color: white; margin-top: 300px;" align="center">
         <h4>Почта: {{ current_user.email }}
             {% if not current_user.email_is_authentication %}
                 <a class="navbar-brand" style="color: red;" href="/">Почта не подтверждена</a>
             {% endif %}
         </h4>
         <h4>Пароль: **********</h4>
+    </div>
+    <div style="color: white;">
+    {% if current_user.user_level == 5 %}
+        <h1>Ваш уровень администрации 5</h1>
+        <h1>Вы можете создавать космические объекты</h1>
+        <h1>Редактировать космические объекты</h1>
+        <h1>Удалять космические объекты</h1>
+    {% elif current_user.user_level == 4 %}
+        <p>Ваш уровень администрации 4</p>
+        <p>Вы можете создавать космические объекты</p>
+        <p>Редактировать космические объекты</p>
+        <p>Удалять космические объекты</p>
+    {% elif current_user.user_level == 3 %}
+        <p>Ваш уровень администрации 3</p>
+        <p>Вы можете создавать космические объекты</p>
+    {% elif current_user.user_level == 2 %}
+        <p>Ваш уровень администрации 2</p>
+        <p>Вы можете создавать космические объекты</p>
+    {% endif %}
     </div>
 </div>
 </body>

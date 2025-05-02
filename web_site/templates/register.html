@@ -37,6 +37,9 @@
                     {% for error in form.login_email.errors %}
                         Некорректная почта
                     {% endfor %}
+                    {% if message[0] == 3 %}
+                        {{message[1]}}
+                        {% endif %}
                     </div>
                 </div>
             </div>

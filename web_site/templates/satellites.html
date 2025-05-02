@@ -35,12 +35,12 @@
                             <a href="/delete_satellite/{{ i.id }}" class="btn btn-outline-danger">Удалить</a></p>
                         {% endif %}
                             {% if i.photo %}
-                            <a class="navbar-brand" style="color: white;" href="/check_satellite/{{ i.id }}">{{ i.name }}
+                            <a class="navbar-brand" style="color: white;" href="/check_kosmos_body/{{ i.id }}/satellite">{{ i.name }}
                                 <p><img src="{{url_for('static', filename=i.photo[7:])}}" style="width: 200px; height: 200px; object-fit: cover; opacity: 0.5;"></p>
                             </a>
                             {% else %}
                             <div align="center">
-                                <a class="navbar-brand" style="color: white;" href="/check_satellite/{{ i.id }}">{{ i.name }}
+                                <a class="navbar-brand" style="color: white;" href="/check_kosmos_body/{{ i.id }}/satellite">{{ i.name }}
                                 <div style="width: 200px; height: 200px; background-color: rgba(0, 0, 0, 0.5)" align="center">
                                 </div></a>
                             </div>

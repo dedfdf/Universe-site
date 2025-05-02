@@ -13,12 +13,12 @@
                     <a href="/delete_galaxy/{{ i.id }}" class="btn btn-outline-danger">Удалить</a></p>
                     {% endif %}
                     {% if i.photo %}
-                    <a class="navbar-brand" style="color: white;" href="/check_galaxy/{{i.id}}">{{ i.name }}
+                    <a class="navbar-brand" style="color: white;" href="/check_kosmos_body/{{i.id}}/galaxy">{{ i.name }}
                         <p><img src="{{url_for('static', filename=i.photo[7:])}}" style="width: 300px; height: 300px; object-fit: cover;  opacity: 0.7;"></p>
                     </a>
                     {% else %}
                     <div align="center">
-                        <a class="navbar-brand" style="color: white;" href="/check_galaxy/{{i.id}}">{{ i.name }}
+                        <a class="navbar-brand" style="color: white;" href="/check_kosmos_body/{{i.id}}/galaxy">{{ i.name }}
                         <div style="width: 300px; height: 300px; background-color: rgba(0, 0, 0, 0.5)" align="center">
                         </div></a>
                     </div>
@@ -35,12 +35,12 @@
                         <a href="/delete_galaxy/{{ i.id }}" class="btn btn-outline-danger">Удалить</a></p>
                         {% endif %}
                         {% if i.photo %}
-                        <a class="navbar-brand" style="color: white;" href="/check_galaxy/{{i.id}}">{{ i.name }}
+                        <a class="navbar-brand" style="color: white;" href="/check_kosmos_body/{{i.id}}/galaxy">{{ i.name }}
                             <p><img src="{{url_for('static', filename=i.photo[7:])}}" style="width: 300px; height: 300px; object-fit: cover; opacity: 0.7;"></p>
                         </a>
                         {% else %}
                         <div align="center">
-                            <a class="navbar-brand" style="color: white;" href="/check_galaxy/{{i.id}}">{{ i.name }}
+                            <a class="navbar-brand" style="color: white;" href="/check_kosmos_body/{{i.id}}/galaxy">{{ i.name }}
                             <div style="width: 300px; height: 300px; background-color: rgba(0, 0, 0, 0.5)" align="center">
                             </div></a>
                         </div>
