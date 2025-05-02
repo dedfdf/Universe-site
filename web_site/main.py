@@ -182,6 +182,7 @@ def create_planet():
                                    message='Такая планета уже есть')
     return render_template('create_planet.html', form=form, form1=form1)
 
+
 # create_star_system - создание звездной системы
 @app.route('/create_star_system', methods=['GET', 'POST'])
 def create_star_system():
@@ -274,6 +275,7 @@ def edit_galaxy(id_galaxy):
     db_sess.close()
     return render_template('create_galaxy.html', form=form, form1=form1)
 
+
 # edit_star_system - редактирование звездной системы
 @app.route('/edit_star_system/<int:id_star_system>', methods=['GET', 'POST'])
 def edit_star_system(id_star_system):
@@ -328,6 +330,7 @@ def edit_star_system(id_star_system):
     db_sess.close()
     return render_template('create_star_system.html', form=form, form1=form1)
 
+
 # edit_planet - редактирование планеты
 @app.route('/edit_planet/<int:id_planet>', methods=['GET', 'POST'])
 def edit_planet(id_planet):
@@ -381,6 +384,7 @@ def edit_planet(id_planet):
         return redirect('/planet/1')
     db_sess.close()
     return render_template('create_planet.html', form=form, form1=form1)
+
 
 # edit_satellites - Редактирование спутника
 
@@ -461,6 +465,7 @@ def delete_galaxy(id_galaxy):
     db_sess.commit()
     db_sess.close()
     return redirect('/galaxy/1')
+
 
 # delete_star_system - удаление звездной системы
 @app.route('/delete_star_system/<int:id_star_system>', methods=['GET', 'POST'])
@@ -762,7 +767,8 @@ def check_kosmos_body(id_kosmos_body, name):
     if kosmos_body.photo:
         if os.path.isfile(kosmos_body.photo):
             photo = kosmos_body.photo
-    return render_template(f'check_kosmos_body.html', form=form, kosmos_body=kosmos_body, text=text, photo=photo, title=title)
+    return render_template(f'check_kosmos_body.html', form=form, kosmos_body=kosmos_body, text=text, photo=photo,
+                           title=title)
 
 
 # Профиль авторизованного человека
