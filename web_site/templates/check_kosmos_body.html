@@ -12,7 +12,7 @@
 <form action="" method="post" novalidate>
 <p style="height: auto; width: auto;" align="center">{{ form.submit_return(type="submit", class="btn btn-outline-light") }}</p>
 </form>
-<h1 align="center">Галактика: {{ kosmos_body.name }}</h1>
+<h1 align="center">{{title}}: {{ kosmos_body.name }}</h1>
 {% if photo != '' %}
     <p><img src="{{url_for('static', filename=photo[7:])}}" style="max-width: 600px; max-height: 400px; object-fit: cover;"></p>
 {% endif %}

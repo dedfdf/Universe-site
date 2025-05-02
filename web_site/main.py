@@ -88,7 +88,7 @@ def create_satellite():
                 db_sess.add(satellite)
                 db_sess.commit()
                 db_sess.close()
-                return redirect('/satellites/1')
+                return redirect('/satellite/1')
             db_sess.close()
             return render_template('create_satellite.html', form=form, message='Такой спутник уже есть', form1=form1)
     return render_template('create_satellite.html', form=form, form1=form1)
@@ -363,11 +363,14 @@ def edit_planet(id_planet):
         else:
             planet.star_system = star_system[0].id
         if uploaded_file.filename:
-            if planet.photo:
-                if os.path.isfile(planet.photo):
-                    os.remove(planet.photo)
-            planet.photo = 'static/uploads/' + filename
-            uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+            if uploaded_file.filename != '':
+                if planet.photo:
+                    if os.path.isfile(planet.photo):
+                        os.remove(planet.photo)
+                uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+                os.rename('static/uploads/' + filename,
+                          'static/uploads/' + f"{planet.name}.{filename.split('.')[-1]}")
+                planet.photo = 'static/uploads/' + f"{planet.name}.{filename.split('.')[-1]}"
         with open('static/uploads_txt/' + planet.name + '.txt', 'w', encoding='utf-8') as file:
             file.write(form.text.data)
         planet.text = 'static/uploads_txt/' + planet.name + '.txt'
@@ -389,7 +392,7 @@ def edit_satellite(id_satellite):
     satellite = db_sess.query(Satellite).filter(Satellite.id == id_satellite)
     if form.submit_return.data:
         db_sess.close()
-        return redirect('/satellites/1')
+        return redirect('/satellite/1')
     satellite = satellite[0]
     if not form.submit.data:
         form.name.data = satellite.name
@@ -430,7 +433,7 @@ def edit_satellite(id_satellite):
         db_sess.add(satellite)
         db_sess.commit()
         db_sess.close()
-        return redirect('/satellites/1')
+        return redirect('/satellite/1')
     db_sess.close()
     return render_template('create_satellite.html', form=form, form1=form1)
 
@@ -518,7 +521,7 @@ def delete_satellite(id_satellite):
     db_sess.delete(satellite)
     db_sess.commit()
     db_sess.close()
-    return redirect('/planet/1')
+    return redirect('/satellite/1')
 
 
 # Страницы каталогов для космических тел: satellites - спутник, planet - планета, star_system - звездная система,
@@ -547,7 +550,7 @@ def galaxies(page):
     if form.submit_choise_create.data:
         return redirect('/choise_create')
     if form.submit_satellites.data:
-        return redirect('/satellites/1')
+        return redirect('/satellite/1')
     return render_template('galaxy.html', form=form, arr=arr, len_arr=len(arr), page=page)
 
 
@@ -575,7 +578,7 @@ def star_system(page):
     if form.submit_planets.data:
         return redirect('/planet/1')
     if form.submit_satellites.data:
-        return redirect('/satellites/1')
+        return redirect('/satellite/1')
     return render_template('star_systems.html', form=form, arr=arr, len_arr=len(arr), page=page)
 
 
@@ -603,12 +606,12 @@ def planets(page):
     if form.submit_choise_create.data:
         return redirect('/choise_create')
     if form.submit_satellites.data:
-        return redirect('/satellites/1')
+        return redirect('/satellite/1')
     return render_template('planet.html', form=form, arr=arr, len_arr=len(arr), page=page)
 
 
-@app.route('/satellites/<int:page>', methods=['GET', 'POST'])
-def satellites(page):
+@app.route('/satellite/<int:page>', methods=['GET', 'POST'])
+def satellite(page):
     form = CatalogForm()
     db_sess = db_session.create_session()
     arr = db_sess.query(Satellite)
@@ -618,10 +621,10 @@ def satellites(page):
     db_sess.close()
     if form.submit_left_page.data:
         if page > 1:
-            return redirect(f'/satellites/{page - 1}')
+            return redirect(f'/satellite/{page - 1}')
     if form.submit_right_page.data:
         if page < n:
-            return redirect(f'/satellites/{page + 1}')
+            return redirect(f'/satellite/{page + 1}')
     if form.submit_return.data:
         return redirect('/')
     if form.submit_galaxy.data:
@@ -742,6 +745,7 @@ def check_kosmos_body(id_kosmos_body, name):
         title = 'Планета'
     if name == 'satellite':
         kosmos_body = Satellite
+        title = 'Спутник'
     if name == 'star_system':
         kosmos_body = Star_System
         title = 'Звездная система'
@@ -758,7 +762,7 @@ def check_kosmos_body(id_kosmos_body, name):
     if kosmos_body.photo:
         if os.path.isfile(kosmos_body.photo):
             photo = kosmos_body.photo
-    return render_template(f'check_kosmos_body.html', form=form, kosmos_body=kosmos_body, text=text, photo=photo)
+    return render_template(f'check_kosmos_body.html', form=form, kosmos_body=kosmos_body, text=text, photo=photo, title=title)
 
 
 # Профиль авторизованного человека
